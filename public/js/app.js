@@ -55,7 +55,9 @@ const configureClient = async () => {
 
   auth0Client = await auth0.createAuth0Client({
     domain: config.domain,
-    clientId: config.clientId
+    clientId: config.clientId,
+    cacheLocation: "localstorage",
+    useRefreshTokens: false
   });
 };
 
