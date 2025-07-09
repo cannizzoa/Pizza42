@@ -1,4 +1,5 @@
 {
   "domain": "dev-4cxpi21z0k7giy4z.us.auth0.com",
-  "clientId": "wdWQl6cODQQj29ZrIVAIDuqZGVq85yW0"
-}
+  "clientId": "wdWQl6cODQQj29ZrIVAIDuqZGVq85yW0",
+  "audience": "orders"
+  }
