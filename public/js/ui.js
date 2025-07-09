@@ -62,7 +62,8 @@ const updateUI = async () => {
 
     if (isAuthenticated) {
       const user = await auth0Client.getUser();
-
+      
+      document.getElementById("btn-call-api").disabled = false;
       document.getElementById("profile-data").innerText = JSON.stringify(
         user,
         null,
@@ -77,6 +78,7 @@ const updateUI = async () => {
       eachElement(".auth-invisible", (e) => e.classList.add("hidden"));
       eachElement(".auth-visible", (e) => e.classList.remove("hidden"));
     } else {
+      document.getElementById("btn-call-api").disabled = true;
       eachElement(".auth-invisible", (e) => e.classList.remove("hidden"));
       eachElement(".auth-visible", (e) => e.classList.add("hidden"));
     }

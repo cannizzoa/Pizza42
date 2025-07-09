@@ -266,7 +266,16 @@
 
             <div class="row">
               <pre class="rounded">
-                <code id="profile-data" class="json"></code></pre>
+                  <code id="profile-data" class="json"></code>
+              </pre>
+              <!-- API Call Button -->
+              <div class="mt-4">
+                <button id="btn-call-api" disabled onclick="callApi()" class="btn btn-outline-primary">
+                  Call API
+                </button>
+              </div>
+              <!-- API Response Container -->
+              <pre id="api-call-result" class="mt-3 p-3 bg-light rounded"></pre>
             </div>
           </div>
         </div>
