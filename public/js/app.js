@@ -11,7 +11,7 @@ const login = async (targetUrl) => {
     const options = {
       authorizationParams: {
         redirect_uri: window.location.origin,
-        scope: 'openid name email'
+        scope: 'openid name email read:orders write:orders'
       }
     };
 

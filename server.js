@@ -6,7 +6,7 @@ const app = express();
 
 // for API
 
-const { auth } = require("express-oauth2-jwt-bearer");
+const { auth, requiredScopes } = require("express-oauth2-jwt-bearer");
 const authConfig = require("./auth_config.json");
 
 // create the JWT middleware
@@ -27,15 +27,23 @@ app.get("/auth_config.json", (req, res) => {
 
 // API Route
 
-app.get("/api/external", checkJwt, (req, res) => {
+app.get("/api/external", checkJwt, requiredScopes("read:orders"), (req, res) => {
   res.send({
-    msg: "Your access token was successfully validated!"
+    msg: "Your access token was successfully validated with scope!"
   });
 });
 
 app.use(function(err, req, res, next) {
   if (err.name === "UnauthorizedError") {
     return res.status(401).send({ msg: "Invalid token" });
+  }
+
+  next(err, req, res);
+});
+
+app.use(function(err, req, res, next) {
+  if (err.name === "InsufficientScopeError") {
+    return res.status(403).send({ msg: "Insufficient Scope" });
   }
 
   next(err, req, res);
@@ -48,23 +56,5 @@ app.get("/*", (_, res) => {
 process.on("SIGINT", function() {
   process.exit();
 });
-
-// API Route
-
-app.get("/api/external", checkJwt, (req, res) => {
-  res.send({
-    msg: "Your access token was successfully validated!"
-  });
-});
-
-app.use(function(err, req, res, next) {
-  if (err.name === "UnauthorizedError") {
-    return res.status(401).send({ msg: "Invalid token" });
-  }
-
-  next(err, req, res);
-});
-
-
 
 module.exports = app;
