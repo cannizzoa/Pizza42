@@ -2,6 +2,7 @@ const express = require("express");
 const { join } = require("path");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const axios = require('axios');
 const app = express();
 app.use(express.json()); //to read JSON Body
 
@@ -13,6 +14,22 @@ const auth0 = new ManagementClient({
   clientSecret: 'g-0UMEL4AGxwdBP1X932ppTush3Y5OQ9EbkqOJO-9h2RpIGnpN6qF9mtEEgwPGdI',
   scope: 'read:users update:users'
 });
+
+//Get Management Token for custom API
+async function getManagementToken() {
+  const domain = 'dev-4cxpi21z0k7giy4z.us.auth0.com'; // il tuo
+  const clientId = 'SM1L8w0lo1xi3ygaANaQ8HSGkTr5GiCc'; // il tuo
+  const clientSecret = 'g-0UMEL4AGxwdBP1X932ppTush3Y5OQ9EbkqOJO-9h2RpIGnpN6qF9mtEEgwPGdI'; // il tuo
+  const audience = `https://${domain}/api/v2/`;
+  const res = await axios.post(`https://${domain}/oauth/token`, {
+    client_id: clientId,
+    client_secret: clientSecret,
+    audience: audience,
+    grant_type: 'client_credentials'
+  });
+  return res.data.access_token;
+}
+
 
 // for API
 
@@ -66,6 +83,31 @@ app.post("/api/orders", checkJwt, requiredScopes("read:orders"), async (req, res
     res.json({ msg: "Order saved!" });
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+
+app.post('/api/send-verification-email', checkJwt, async (req, res) => {
+  const userId = req.auth.payload.sub;
+  const domain = 'dev-4cxpi21z0k7giy4z.us.auth0.com';
+  const token = await getManagementToken();
+  
+  try {
+    const res = await axios.post(
+    `https://dev-4cxpi21z0k7giy4z.us.auth0.com/api/v2/jobs/verification-email`,
+    { user_id: userId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }
+    );
+    return res.data;
+    res.json({ msg: "Verification email sent!" });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+    console.log(e.message);
   }
 });
 

@@ -193,3 +193,18 @@ async function sendOrder() {
     document.getElementById("order-result").textContent = "Error: " + err.message;
   }
 }
+
+
+//Handle Verification Link button
+async function sendVerificationEmail() {
+  try {
+    const token = await auth0Client.getTokenSilently();
+    await fetch('/api/send-verification-email', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    alert("We have sent you a new verification email!");
+  } catch (e) {
+    alert("Could not send verification email: " + e.message);
+  }
+}
