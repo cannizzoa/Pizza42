@@ -266,7 +266,14 @@
                   <button id="btn-send-order" type="button" class="btn btn-success mt-3" onclick="sendOrder()">Send Order</button>
                 </form>
                 <pre id="order-result" class="mt-3"></pre>
-                <a href="#" onclick="sendVerificationEmail(); return false;" class="btn btn-warning"> Verify your email </a>
+                <a
+                  href="#"
+                  id="verify-email-btn"
+                  onclick="sendVerificationEmail(); return false;"
+                  class="btn btn-warning hidden"
+                >
+                  Verify your email
+                </a>
               </div>
             </div>
           </div>
