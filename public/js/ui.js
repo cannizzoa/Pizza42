@@ -77,10 +77,17 @@ const updateUI = async () => {
       eachElement(".user-email", (e) => (e.innerText = user.email));
       eachElement(".auth-invisible", (e) => e.classList.add("hidden"));
       eachElement(".auth-visible", (e) => e.classList.remove("hidden"));
+
+      if (user.email_verified) {
+        document.getElementById("verify-email-btn").classList.add("hidden");
+      } else {
+        document.getElementById("verify-email-btn").classList.remove("hidden");
+      }
     } else {
       document.getElementById("btn-send-order").disabled = true;
       eachElement(".auth-invisible", (e) => e.classList.remove("hidden"));
       eachElement(".auth-visible", (e) => e.classList.add("hidden"));
+      document.getElementById("verify-email-btn").classList.add("hidden");
     }
   } catch (err) {
     console.log("Error updating UI!", err);
