@@ -164,3 +164,32 @@ const callApi = async () => {
     console.error(e);
   }
 };
+
+
+//Handle "Send Order" click button
+async function sendOrder() {
+  // Get values from form
+  const form = document.getElementById("order-form");
+  const order = {
+    original: parseInt(form.original.value) || 0,
+    red: parseInt(form.red.value) || 0,
+    white: parseInt(form.white.value) || 0,
+    hot: parseInt(form.hot.value) || 0
+  };
+
+  try {
+    const token = await auth0Client.getTokenSilently();
+    const resp = await fetch("/api/orders", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ order })
+    });
+    const data = await resp.json();
+    document.getElementById("order-result").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("order-result").textContent = "Error: " + err.message;
+  }
+}

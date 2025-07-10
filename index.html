@@ -244,13 +244,29 @@
                   <code id="profile-data" class="json"></code>
               </pre>
               <!-- API Call Button -->
-              <div class="mt-4">
-                <button id="btn-call-api" disabled onclick="callApi()" class="btn btn-outline-primary">
-                  Call API
-                </button>
+              <div class="my-5 text-center" id="pizza-order-form">
+                <h3 style="color:#d23f29;">Order your Pizza!</h3>
+                <form id="order-form" style="max-width:400px;margin:0 auto;">
+                  <div class="form-group">
+                    <label for="original">Original</label>
+                    <input type="number" min="0" value="0" id="original" name="original" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="red">Red</label>
+                    <input type="number" min="0" value="0" id="red" name="red" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="white">White</label>
+                    <input type="number" min="0" value="0" id="white" name="white" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="hot">Hot</label>
+                    <input type="number" min="0" value="0" id="hot" name="hot" class="form-control" />
+                  </div>
+                  <button id="btn-send-order" type="button" class="btn btn-success mt-3" onclick="sendOrder()">Send Order</button>
+                </form>
+                <pre id="order-result" class="mt-3"></pre>
               </div>
-              <!-- API Response Container -->
-              <pre id="api-call-result" class="mt-3 p-3 bg-light rounded"></pre>
             </div>
           </div>
         </div>
