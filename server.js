@@ -38,6 +38,16 @@ app.get("/auth_config.json", (req, res) => {
 // Define function to add Order
 async function addOrderToUser(userId, order) {
   const user = await auth0.users.get({ id: userId });
+  
+  // Check email verification
+  if (!user.email_verified) {
+    const err = new Error(
+      "Missing email verification: please verify your email before placing a pizza order"
+    );
+    err.status = 403; // Forbidden
+    throw err;
+  }
+  
   const metadata = user.user_metadata || {};
   const orders = Array.isArray(metadata.orders) ? metadata.orders : [];
   orders.push({ ...order, date: new Date().toISOString() });
@@ -72,7 +82,6 @@ app.use(function(err, req, res, next) {
   if (err.name === "InsufficientScopeError") {
     return res.status(403).send({ msg: "Insufficient Scope" });
   }
-
   next(err, req, res);
 });
 

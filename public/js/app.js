@@ -59,7 +59,7 @@ const configureClient = async () => {
     cacheLocation: "localstorage",
     useRefreshTokens: false,
     authorizationParams: {
-      audience: config.audience   // NEW - add the audience value
+      audience: config.audience
     }
   });
 };
