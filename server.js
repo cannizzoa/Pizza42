@@ -74,7 +74,7 @@ async function addOrderToUser(userId, order) {
 
 // API Route
 
-app.post("/api/orders", checkJwt, requiredScopes("read:orders"), async (req, res) => {
+app.post("/api/orders", checkJwt, requiredScopes("write:orders"), async (req, res) => {
   const userId = req.auth.payload.sub;
   const order = req.body.order;
 
