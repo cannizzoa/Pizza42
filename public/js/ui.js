@@ -61,8 +61,8 @@ const updateUI = async () => {
     const isAuthenticated = await auth0Client.isAuthenticated();
 
     if (isAuthenticated) {
-      const user = await auth0Client.getUser();
-      
+      const user = await auth0Client.getUser({ ignoreCache: true });
+            
       document.getElementById("btn-send-order").disabled = false;
       document.getElementById("profile-data").innerText = JSON.stringify(
         user,

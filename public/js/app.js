@@ -1,5 +1,21 @@
 // The Auth0 client, initialized in configureClient()
 let auth0Client = null;
+ 
+const configureClient = async () => {
+    const response = await fetchAuthConfig();
+    const config = await response.json();
+
+    auth0Client = await auth0.createAuth0Client({
+      domain: config.domain,
+      clientId: config.clientId,
+      cacheLocation: "localstorage", /* Required for session persistance */
+      useRefreshTokens: true, /* Required to update UserId token with auth0Client.getUser({ ignoreCache: true }) */
+      authorizationParams: {
+        audience: config.audience,
+      }
+    });
+ };
+
 
 /**
  * Starts the authentication flow
@@ -11,7 +27,7 @@ const login = async (targetUrl) => {
     const options = {
       authorizationParams: {
         redirect_uri: window.location.origin,
-        scope: 'openid name email read:orders write:orders'
+        scope: 'openid name email read:orders write:orders offline_access'
       }
     };
 
@@ -46,23 +62,7 @@ const logout = async () => {
  */
 const fetchAuthConfig = () => fetch("/auth_config.json");
 
-/**
- * Initializes the Auth0 client
- */
-const configureClient = async () => {
-  const response = await fetchAuthConfig();
-  const config = await response.json();
 
-  auth0Client = await auth0.createAuth0Client({
-    domain: config.domain,
-    clientId: config.clientId,
-    cacheLocation: "localstorage",
-    useRefreshTokens: false,
-    authorizationParams: {
-      audience: config.audience
-    }
-  });
-};
 
 /**
  * Checks to see if the user is authenticated. If so, `fn` is executed. Otherwise, the user
@@ -189,6 +189,7 @@ async function sendOrder() {
     });
     const data = await resp.json();
     document.getElementById("order-result").textContent = JSON.stringify(data, null, 2);
+    updateUI();
   } catch (err) {
     document.getElementById("order-result").textContent = "Error: " + err.message;
   }
