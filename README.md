@@ -1,68 +1,48 @@
-# Sample 01 - Login
+# Pizza42 - Auth0 Demo
 
-The purpose of this article is to demonstrate how simple it is to set up and use the new Single Page Application SDK, and authenticate a user in your application using Auth0's Universal Login Page.
+Pizza42 is a small demonstration application that shows how to integrate authentication using [Auth0](https://auth0.com) in a Single Page Application served by Express. After logging in, the user can view their profile and submit a pizza order through protected APIs.
 
-## Running the Sample Application
+## Project structure
 
-The sample can be run locally, by cloning the repository to your machine and then following the steps below.
+- `server.js` – Express server that provides the APIs and serves the static files.
+- `bin/www` – entry point that starts the application on port 3000.
+- `index.html` – main page of the application.
+- `public/` – static resources.
+  - `js/app.js` handles authentication and API calls.
+  - `js/ui.js` implements navigation and updates the interface.
+  - `css/main.css` contains styles.
+  - `images/` images used by the app.
+- `auth_config.json` – Auth0 domain, clientId and audience parameters.
 
-### Specifying Auth0 Credentials
+## Installation
 
-To specify the application client ID and domain, make a copy of `auth_config.json.example` and rename it to `auth_config.json`. Then open it in a text editor and supply the values for your application:
+1. Clone this repository.
+2. Install the dependencies:
 
-```json
-{
-  "domain": "dev-4cxpi21z0k7giy4z.us.auth0.com",
-  "clientId": "wdWQl6cODQQj29ZrIVAIDuqZGVq85yW0"
-}
-```
+   ```bash
+   npm install
+   ```
+3. Customize `auth_config.json` with the values from your Auth0 tenant.
 
-### Installation
+## Running the application
 
-After cloning the repository, run:
-
-```bash
-$ npm install
-```
-
-This will install all of the necessary packages in order for the sample to run.
-
-### Running the Application
-
-This version of the application uses an [Express](https://expressjs.com) server that can serve the site from a single page. To start the app from the terminal, run:
+To start the development server run:
 
 ```bash
-$ npm run dev
+npm run dev
 ```
 
-## Frequently Asked Questions
+The app will be available at `http://localhost:3000`.
 
-We are compiling a list of questions and answers regarding the new JavaScript SDK - if you're having issues running the sample applications, [check the FAQ](https://github.com/auth0/auth0-spa-js/blob/master/FAQ.md)!
+## How to test
 
-## What is Auth0?
+1. Visit `http://localhost:3000` and click **Log in** to authenticate through Auth0's Universal Login.
+2. After logging in you can view your profile and fill out the order form for a pizza.
+3. Press **Send Order** to post the order to the protected `/api/orders` endpoint which requires a valid JWT.
+4. If your email address is not verified you can use **Verify your email** to request a verification message via the `/api/send-verification-email` endpoint.
 
-Auth0 helps you to:
+Check the browser console or the server logs to see the API calls and verify that the tokens are used correctly.
 
-- Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, among others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
-- Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
-- Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
-- Support for generating signed [Json Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
-- Analytics of how, when and where users are logging in.
-- Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
+---
 
-## Create a free Auth0 account
-
-1. Go to [Auth0](https://auth0.com/signup) and click Sign Up.
-2. Use Google, GitHub or Microsoft Account to login.
-
-## Issue Reporting
-
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
-
-## Author
-
-[Auth0](auth0.com)
-
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](LICENSE.txt) file for more info.
+This application is intended exclusively for demonstration purposes as part of a presentation of Auth0 features.
